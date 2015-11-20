@@ -17,7 +17,7 @@ class User {
 		}
 	}
 	function doLogin($username, $password){
-		$row = $this->db->getRow("SELECT id, username, email FROM users WHERE (username = '".$username."' OR email = '".$username."') AND password = '".$password."'");
+		$row = $this->db->getRow("SELECT id, username, email FROM users WHERE (username = '".$username."' OR email = '".$username."') AND password = '".hash("sha512", $password)."'");
 		if (count($row)){
 			$this->uid = $row["id"];
 			$this->userdata = $row;
@@ -25,9 +25,9 @@ class User {
 		} else return false;
 	}
 	function doRegister($username, $email, $passwd){
-		if (filter_var($email_a, FILTER_VALIDATE_EMAIL)) {
-			$this->db->insertQuery($query);
-		}
+		$count = $this->db->getField("SELECT count(*) as cuantos FROM users WHERE username = '".$username."' OR email = '".$email."'", "cuantos");
+		if ($count) return 0;
+		else return $this->db->insertQuery("INSERT INTO users (username, email, password) VALUES ('".$username."', '".$email."', '".hash("sha512", $passwd)."')");
 	}
 	function getUID(){
 		return $this->uid;
