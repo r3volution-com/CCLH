@@ -31,4 +31,7 @@ class DB {
 		$res = $this->db->query($query);
 		return $this->db->insert_id;
 	}
+	function query($query){
+		$this->db->query($query);
+	}
 }

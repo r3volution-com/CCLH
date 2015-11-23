@@ -29,6 +29,19 @@ class User {
 		if ($count) return 0;
 		else return $this->db->insertQuery("INSERT INTO users (username, email, password) VALUES ('".$username."', '".$email."', '".hash("sha512", $passwd)."')");
 	}
+	function recoverPassword($email){
+		if ($this->db->getField("SELECT count(*) as cuantos FROM users WHERE email = '".$email."'", "cuantos")){
+			$alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+			$pass = array();
+			$alphaLength = strlen($alphabet) - 1;
+			for ($i = 0; $i < 8; $i++) {
+				$n = rand(0, $alphaLength);
+				$pass[] = $alphabet[$n];
+			}
+			$this->db->query("UPDATE users SET password = '".hash('sha512',$pass)."' WHERE email='".$email."'");
+			return implode($pass);
+		} else return "";
+	}
 	function getUID(){
 		return $this->uid;
 	}
