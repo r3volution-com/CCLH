@@ -1,5 +1,5 @@
- <?php session_start(); if (isset($_SESSION["uid"])) {header("location: lobby.php"); exit;} ?>
- <!DOCTYPE html>
+<?php session_start(); if (isset($_SESSION["uid"])) {header("location: lobby.php"); exit;} ?>
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Cartas contra la humanidad - Login</title>
