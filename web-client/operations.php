@@ -55,8 +55,15 @@ switch ($_GET["op"]){
 			} else die(json_encode(array("status" => "ERROR", "msg" => "El email ya se encuentra registrado")));
 		} else die(json_encode(array("status" => "ERROR", "msg" => "El email introducido no es valido")));
 	break;
+	case "createroom":
+		if (!$user->getUID()) die(json_encode(array("status" => "ERROR", "msg" => "No tienes permitido hacer eso")));
+		//Crea la Sala
+		die(json_encode(array("status" => "OK", "msg" => "OK")));
+	break;
 	case "logout":
 		session_unset();
+		header("location: index.php");
+		exit;
 	break;
 	default:
 		die(json_encode(array("status" => "ERROR", "msg" => "No tienes permitido hacer eso")));

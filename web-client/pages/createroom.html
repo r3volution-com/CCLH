@@ -1,0 +1,38 @@
+<div class="modal-content">
+	<h4>Crear sala</h4>
+	<form id="createroom" action="operations.php?op=createroom" method="post"> 
+		<div class="row">
+			<div class="input-field col s6">
+				<input id="first_name" type="text" class="validate"/>
+				<label for="first_name">Nombre de la Sala</label>
+			</div>
+			<div class="input-field col s6">
+				<input id="password" type="password" class="validate"/>
+				<label for="password">Contrase&ntilde;a</label>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<a href="javascript:void(0)" onclick="createRoom()" class="modal-action modal-close waves-effect waves-green btn">Crear</a>
+</div>
+<script>
+	function createRoom() {
+		$("#createroom").ajaxSubmit({
+			dataType: 'json',
+			type: 'POST',
+			success:function(res){
+				if (res.status == "OK"){
+					$('#modal').closeModal();
+				} else {
+					Materialize.toast(res.msg, 3000);
+				}
+			},
+			error: function(res){
+				Materialize.toast('Se ha producido un error', 3000);
+				console.log(res);
+			}
+		}); 
+	}
+</script>
+			 
